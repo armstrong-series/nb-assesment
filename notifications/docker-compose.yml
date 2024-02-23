@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  users:
+    build: ./users
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://user:password@db:5432/usersdb
+    depends_on:
+      - db
+  notifications:
+    build: ./notifications
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: usersdb
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "15672:15672"
+      - "5672:5672"

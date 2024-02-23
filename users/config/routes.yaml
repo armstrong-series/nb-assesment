@@ -1,0 +1,4 @@
+api_v1_auth_user:
+    resource: '../src/Infrastructure/Delivery/API/User/routes/routes.yaml'
+    prefix: '/api/v1/auth'
+

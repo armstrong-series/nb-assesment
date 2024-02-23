@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672" 
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+
+  users_service:
+    build: /var/www/NB/users
+    environment:
+      - RABBITMQ_URL=amqp://user:password@rabbitmq:5672/
+    depends_on:
+      - rabbitmq
+
+  notifications_service:
+    build: /var/www/NB/notifications
+    environment:
+      - RABBITMQ_URL=amqp://user:password@rabbitmq:5672/
+    depends_on:
+      - rabbitmq
