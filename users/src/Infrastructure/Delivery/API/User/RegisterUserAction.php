@@ -34,18 +34,20 @@ final class RegisterUserAction
      */
     public function __invoke(Request $request): Response
     {
-        
+      
+    
         $requestData = json_decode($request->getContent(), true);
-
         if ($requestData['password'] !== $requestData['password_confirmation']) {
             return new Response('Password confirmation does not match.', Response::HTTP_BAD_REQUEST);
         }
 
-
+            
         $formRequest = $this->formFactory->create(RegisterationFormType::class);
+
         $formRequest->submit(json_decode($request->getContent(), true));
+     
         
-        if ($formRequest->isSubmitted() && $formRequest->isValid()) {
+        if ($formRequest->isSubmitted()) {
             $data = $formRequest->getData();
             $command = new RegisterUserCommand(
                 $data['firstname'],
@@ -60,9 +62,12 @@ final class RegisterUserAction
             $event = new UserRegisteredEvent($data['email'], $data['firstname'], $data['lastname']);
             $this->messageBus->dispatch($event);
 
+          
+
             return new Response('User registration initiated.', Response::HTTP_ACCEPTED);
         }
 
+        dd('error');
         return new Response('Invalid request data.', Response::HTTP_BAD_REQUEST);
         
     }

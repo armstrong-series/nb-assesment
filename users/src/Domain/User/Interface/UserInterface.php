@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Interface;
 
-use App\Domain\User\User;
+use App\Domain\Model\User\User;
 
 interface UserInterface
 {
@@ -23,12 +23,12 @@ interface UserInterface
     public function getByEmail(string $email): ?User;
 
     /**
-     * Saves a User entity.
+     * Saves/Create a User entity.
      *
      * @param User $user
      * @return void
      */
-    public function save(User $user): void;
+    public function create(User $user): void;
 
     /**
      * Deletes a User entity.

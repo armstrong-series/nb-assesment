@@ -48,6 +48,13 @@ class RegisterationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('lastname', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'First name is required',
+                    ]),
+                ],
+            ])
             ->add('nationality', TextType::class);
     }
 

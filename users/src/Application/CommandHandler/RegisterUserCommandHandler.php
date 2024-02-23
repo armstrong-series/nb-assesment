@@ -9,15 +9,16 @@ use App\Domain\User\Interface\UserInterface;
 use App\Application\Command\RegisterUserCommand;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 final class RegisterUserCommandHandler
 {
     private $userInterface;
-    private $passwordHash;
+    private $passwordHasher;
 
-    public function __construct(UserInterface $userInterface, UserPasswordHasherInterface $passwordHash)
+    public function __construct(UserInterface $userInterface, UserPasswordHasherInterface $passwordHasher)
     {
-        $this->$userInterface = $$userInterface;
-        $this->passwordHash = $passwordHash;
+        $this->userInterface = $userInterface; 
+        $this->passwordHasher =  $passwordHasher;
     }
 
     public function __invoke(RegisterUserCommand $command)
@@ -27,10 +28,10 @@ final class RegisterUserCommandHandler
         $user->setFirstname($command->getFirstname());
         $user->setLastName($command->getLastName());
         $user->setNationality($command->getNationality());
-        $user->setPassword($this->passwordHash->hashPassword($user, $command->getPassword()));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $command->getPassword()));
 
 
-        $this->userInterface->save($user);
+        $this->userInterface->create($user);
 
     
     }
