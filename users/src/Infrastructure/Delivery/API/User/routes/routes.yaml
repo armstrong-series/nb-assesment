@@ -1,4 +1,4 @@
 user_register:
     path: /user
-    controller: App\Infrastructure\Delivery\API\Action\User\RegisterUserAction
+    controller: App\Infrastructure\Delivery\API\User\RegisterUserAction
     methods: [POST]

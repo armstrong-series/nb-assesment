@@ -10,15 +10,14 @@ use Psr\Log\LoggerInterface;
 
 class EventHandler implements MessageHandlerInterface
 {
-    private $logger;
 
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
+    public function __construct(
+        
+        protected LoggerInterface $logger,
+    ) {}
 
     public function __invoke(UserRegisteredEvent $event)
     { 
-        $this->logger->info(sprintf('User %s registered.', $event->getUserId()));
+        $this->logger->info(sprintf('A user is initiated', $event->getFirstName()));
     }
 }

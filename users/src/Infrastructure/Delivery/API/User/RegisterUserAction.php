@@ -10,8 +10,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use App\Application\Command\RegisterUserCommand;
 use App\Domain\Form\RegisterationFormType;
 use App\Domain\User\Events\UserRegisteredEvent;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Messenger\Envelope;
+
 
 
 
@@ -31,11 +30,18 @@ final class RegisterUserAction
     }
 
      /**
-     * @Route("/api/v1/auth/user", name="api_v1_auth_register", methods={"POST"})
+     * @Route("/api/v1/auth/user", name="user_register", methods={"POST"})
      */
     public function __invoke(Request $request): Response
     {
         
+        $requestData = json_decode($request->getContent(), true);
+
+        if ($requestData['password'] !== $requestData['password_confirmation']) {
+            return new Response('Password confirmation does not match.', Response::HTTP_BAD_REQUEST);
+        }
+
+
         $formRequest = $this->formFactory->create(RegisterationFormType::class);
         $formRequest->submit(json_decode($request->getContent(), true));
         
@@ -56,6 +62,8 @@ final class RegisterUserAction
 
             return new Response('User registration initiated.', Response::HTTP_ACCEPTED);
         }
+
+        return new Response('Invalid request data.', Response::HTTP_BAD_REQUEST);
         
     }
 }
