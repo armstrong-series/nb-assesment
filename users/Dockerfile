@@ -26,7 +26,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . .
 
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+RUN composer install 
 
 # Adjust file permissions
 RUN chown -R www-data:www-data /var/www/NB \

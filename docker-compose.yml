@@ -9,17 +9,25 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
+   
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
   users_service:
-    build: /var/www/NB/users
+    build: ./users 
+    volumes:
+      - ./users:/var/www/html
     environment:
       - RABBITMQ_URL=amqp://user:password@rabbitmq:5672/
     depends_on:
       - rabbitmq
 
   notifications_service:
-    build: /var/www/NB/notifications
+    build: ./notifications  
     environment:
       - RABBITMQ_URL=amqp://user:password@rabbitmq:5672/
     depends_on:
       - rabbitmq
+
+volumes:
+  rabbitmq_data:

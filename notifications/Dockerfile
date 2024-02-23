@@ -10,6 +10,13 @@ RUN apt-get update && apt-get install -y \
 
 RUN docker-php-ext-install pdo pdo_mysql gd
 
+RUN apt-get update && apt-get install -y \
+    librabbitmq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pecl install amqp \
+    && docker-php-ext-enable amqp
+
 RUN a2enmod rewrite
 
 
@@ -19,7 +26,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . .
 
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+RUN composer install 
 
 # Adjust file permissions
 RUN chown -R www-data:www-data /var/www/NB \
