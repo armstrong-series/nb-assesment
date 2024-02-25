@@ -38,7 +38,7 @@ final class RegisterUserAction
     
         $requestData = json_decode($request->getContent(), true);
         if ($requestData['password'] !== $requestData['password_confirmation']) {
-            return new Response('Password confirmation does not match.', Response::HTTP_BAD_REQUEST);
+            return new Response('Password confirmation does not match.', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
             
@@ -67,7 +67,7 @@ final class RegisterUserAction
             return new Response('User registration initiated.', Response::HTTP_ACCEPTED);
         }
 
-        dd('error');
+       
         return new Response('Invalid request data.', Response::HTTP_BAD_REQUEST);
         
     }

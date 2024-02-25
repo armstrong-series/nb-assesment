@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use App\Validator\Constraints\UniqueEmail;
 
 class RegisterationFormType extends AbstractType
 {
@@ -25,19 +27,27 @@ class RegisterationFormType extends AbstractType
                     ]),
                     new Email([
                         'message' => 'This email "{{ value }}" is not a valid email.',
+                    ]),
+                    new UniqueEmail([
+                        'message' => 'The email "{{ value }}" is already in use.',
                     ])
                 ],
             ])
-            ->add('password', PasswordType::class, [
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'The password fields must match.',
+                'options' => ['attr' => ['class' => 'password-field']],
+                'required' => true,
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repeat Password'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Password is required',
                     ]),
                     new Length([
                         'min' => 6,
-                        'max' => 4096,
+                        'max' => 4096, 
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        'maxMessage' => 'Your password cannot be longer than {{ limit }} characters',
                     ]),
                 ],
             ])
@@ -51,7 +61,7 @@ class RegisterationFormType extends AbstractType
             ->add('lastname', TextType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'First name is required',
+                        'message' => 'Last name is required',
                     ]),
                 ],
             ])
