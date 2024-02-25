@@ -12,6 +12,7 @@ services:
    
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    restart: always
 
   users_service:
     build: ./users 
@@ -21,6 +22,7 @@ services:
       - RABBITMQ_URL=amqp://user:password@rabbitmq:5672/
     depends_on:
       - rabbitmq
+    restart: on-failure
 
   notifications_service:
     build: ./notifications  
@@ -28,6 +30,10 @@ services:
       - RABBITMQ_URL=amqp://user:password@rabbitmq:5672/
     depends_on:
       - rabbitmq
+    restart: on-failure
 
 volumes:
   rabbitmq_data:
+
+networks:
+  default:

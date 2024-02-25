@@ -16,9 +16,9 @@ services:
         resource: '../src/Infrastructure/Delivery/API/User'
         tags: ['controller.service_arguments']
 
-    # Explicitly define the service for UserInterface to use the UserRepository implementation
+  
     App\Domain\User\Interface\UserInterface: '@App\Infrastructure\User\UserRepository'
 
-    # Register your command handler with the messenger component
+    
     App\Application\CommandHandler\RegisterUserCommandHandler:
         tags: ['messenger.message_handler']
