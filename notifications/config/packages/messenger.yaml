@@ -15,4 +15,4 @@ framework:
 
     routing:
       # Route the UserRegisteredEvent messages to the external_messages transport
-      'App\Domain\User\Events\UserRegisteredEvent': external_messages
+      #'App\Domain\User\Events\UserRegisteredEvent': external_messages

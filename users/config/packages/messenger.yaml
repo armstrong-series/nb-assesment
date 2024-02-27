@@ -11,7 +11,7 @@ framework:
           queues:
             user_registration_queue: ~
     routing:
-       'App\Domain\User\Events\UserRegisteredEvent': async
+       'App\Domain\User\Events\UserRegisteredEvent': async_priority_high
 
 
 
